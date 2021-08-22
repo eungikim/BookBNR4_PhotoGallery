@@ -1,11 +1,15 @@
 package me.eungi.photogallery
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import me.eungi.photogallery.api.FlickrApi
 import me.eungi.photogallery.api.FlickrResponse
 import me.eungi.photogallery.api.PhotoResponse
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,5 +52,13 @@ class FlickrFetchr {
         })
 
         return responseLiveDate
+    }
+
+    @WorkerThread
+    fun fetchPhoto(url: String): Bitmap? {
+        val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
+        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
+        Log.i(TAG, "Decoded bitmap=$bitmap from response=$response")
+        return bitmap
     }
 }
