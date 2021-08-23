@@ -1,24 +1,31 @@
 package me.eungi.photogallery
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 
-class PhotoGalleryViewModel : ViewModel() {
+class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app) {
 
     val galleryItemLiveData: LiveData<List<GalleryItem>>
 
     private val flickrFetchr = FlickrFetchr()
     private val mutableSearchTerm = MutableLiveData<String>()
+    val searchTerm: String
+        get() = mutableSearchTerm.value ?: ""
 
     init {
-        mutableSearchTerm.value = "sky"
+        mutableSearchTerm.value = QueryPreferences.get(app).getStoredQuery()
 
         galleryItemLiveData = Transformations.switchMap(mutableSearchTerm) { searchTerm ->
-            flickrFetchr.searchPhotos(searchTerm)
+            if (searchTerm.isBlank()) {
+                flickrFetchr.fetchPhotos()
+            } else {
+                flickrFetchr.searchPhotos(searchTerm)
+            }
         }
     }
 
-    fun fetchPhotos(query: String = "") = query.also { mutableSearchTerm.value = it }
+    fun fetchPhotos(query: String = "") {
+        QueryPreferences.get(app).setSotredQuery(query)
+        mutableSearchTerm.value = query
+    }
 }

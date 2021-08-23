@@ -36,6 +36,8 @@ class FlickrFetchr {
             .client(client)
             .build()
         flickrApi = retrofit.create(FlickrApi::class.java)
+
+        Log.d(TAG,  "FlickrFetchr init, my hashCode:${this.hashCode()}")
     }
 
     fun fetchPhotos(): LiveData<List<GalleryItem>> {

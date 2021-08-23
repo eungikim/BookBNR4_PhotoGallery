@@ -84,8 +84,21 @@ class PhotoGalleryFragment : Fragment() {
                     photoGalleryViewModel.fetchPhotos(query)
                     return true
                 }
-                override fun onQueryTextChange(newText: String?): Boolean =  false
+                override fun onQueryTextChange(newText: String?): Boolean = false
             })
+            setOnSearchClickListener {
+                searchView.setQuery(photoGalleryViewModel.searchTerm, false)
+            }
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_item_clear -> {
+                photoGalleryViewModel.fetchPhotos("")
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
