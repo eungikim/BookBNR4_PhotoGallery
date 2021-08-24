@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 private const val PREF_NAME = "photoGallery"
 private const val PREF_SEARCH_QUERY = "searchQuery"
 private const val PREF_LAST_RESULT_ID = "lastResultId"
+private const val PREF_IS_POLLING = "isPolling"
 
 object QueryPreferences {
     private var isInit = false
@@ -34,6 +35,14 @@ object QueryPreferences {
 
     fun setLastResultId(lastResultId: String) {
         prefs.edit().putString(PREF_LAST_RESULT_ID, lastResultId).apply()
+    }
+
+    fun isPolling(): Boolean {
+        return prefs.getBoolean(PREF_IS_POLLING, false)
+    }
+
+    fun setPolling(isOn: Boolean) {
+        prefs.edit().putBoolean(PREF_IS_POLLING, isOn).apply()
     }
 
 }
