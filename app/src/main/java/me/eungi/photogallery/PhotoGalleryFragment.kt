@@ -16,9 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.work.*
 
 private const val TAG = "PhotoGalleryFragment"
 
@@ -41,7 +39,12 @@ class PhotoGalleryFragment : Fragment() {
         }
         lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
 
-        val workRequest = OneTimeWorkRequestBuilder<PollWorker>().build()
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.UNMETERED)
+            .build()
+        val workRequest = OneTimeWorkRequestBuilder<PollWorker>()
+            .setConstraints(constraints)
+            .build()
         WorkManager.getInstance(requireContext()).enqueue(workRequest)
     }
 

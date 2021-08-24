@@ -25,7 +25,7 @@ class PhotoGalleryViewModel(private val app: Application) : AndroidViewModel(app
     }
 
     fun fetchPhotos(query: String = "") {
-        QueryPreferences.get(app).setSotredQuery(query)
+        QueryPreferences.get(app).setSortedQuery(query)
         mutableSearchTerm.value = query
     }
 }

@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 
 private const val PREF_NAME = "photoGallery"
 private const val PREF_SEARCH_QUERY = "searchQuery"
+private const val PREF_LAST_RESULT_ID = "lastResultId"
 
 object QueryPreferences {
     private var isInit = false
@@ -23,8 +24,16 @@ object QueryPreferences {
         return prefs.getString(PREF_SEARCH_QUERY, "")!!
     }
 
-    fun setSotredQuery(query: String) {
+    fun setSortedQuery(query: String) {
         prefs.edit().putString(PREF_SEARCH_QUERY, query).apply()
+    }
+
+    fun getLastResultId(): String {
+        return prefs.getString(PREF_LAST_RESULT_ID, "")!!
+    }
+
+    fun setLastResultId(lastResultId: String) {
+        prefs.edit().putString(PREF_LAST_RESULT_ID, lastResultId).apply()
     }
 
 }
