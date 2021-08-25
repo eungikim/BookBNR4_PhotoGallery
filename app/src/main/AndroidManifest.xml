@@ -28,7 +28,7 @@
             android:name=".NotificationReceiver"
             android:exported="false"
             android:permission="me.eungi.photogallery.PRIVATE">
-            <intent-filter>
+            <intent-filter android:priority="-999">
                 <action android:name="me.eungi.photogallery.ACTION_SHOW_NOTIFICATION" />
             </intent-filter>
         </receiver>

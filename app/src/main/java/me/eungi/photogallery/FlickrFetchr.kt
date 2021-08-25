@@ -17,7 +17,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 
 private const val TAG = "FlickrFetchr"
 
@@ -82,7 +81,7 @@ class FlickrFetchr {
     fun fetchPhoto(url: String): Bitmap? {
         val response: Response<ResponseBody> = flickrApi.fetchUrlBytes(url).execute()
         val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
-        Log.i(TAG, "Decoded bitmap=$bitmap from response=$response")
+//        Log.i(TAG, "Decoded bitmap=$bitmap from response=$response")
         return bitmap
     }
 }
